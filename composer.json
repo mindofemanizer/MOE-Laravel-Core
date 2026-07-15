@@ -1,0 +1,40 @@
+{
+    "name": "moe/laravel-core",
+    "description": "Core package for MOE ecosystem — Base contracts, traits, and classes",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MindOfEmanizer",
+            "email": "emanizer@example.com"
+        }
+    ],
+    "keywords": ["laravel", "core", "contracts", "traits", "moe"],
+    "autoload": {
+        "psr-4": {
+            "Moe\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Moe\\Core\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Moe\\Core\\CoreServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
