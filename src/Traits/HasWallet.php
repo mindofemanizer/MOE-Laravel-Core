@@ -3,7 +3,7 @@
 namespace Moe\Core\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Moe\Core\Contracts\HasWallet as HasWalletContract;
+use Illuminate\Support\Facades\DB;
 use Moe\Core\Exceptions\InsufficientBalance;
 
 trait HasWallet
@@ -20,35 +20,42 @@ trait HasWallet
 
     public function credit(float $amount, string $type, ?string $description = null): Model
     {
-        $wallet = $this->wallet()->firstOrCreate([]);
+        return DB::transaction(function () use ($amount, $type, $description) {
+            $wallet = $this->wallet()->firstOrCreate([]);
 
-        $wallet->increment('balance', $amount);
+            $wallet->increment('balance', $amount);
+            $wallet = $wallet->fresh();
 
-        return $wallet->transactions()->create([
-            'type' => $type,
-            'amount' => $amount,
-            'description' => $description,
-            'balance_before' => $wallet->fresh()->balance - $amount,
-            'balance_after' => $wallet->fresh()->balance,
-        ]);
+            return $wallet->transactions()->create([
+                'type' => $type,
+                'amount' => $amount,
+                'description' => $description,
+                'balance_before' => $wallet->balance - $amount,
+                'balance_after' => $wallet->balance,
+            ]);
+        });
     }
 
     public function debit(float $amount, string $type, ?string $description = null): Model
     {
-        if (! $this->hasSufficientBalance($amount)) {
-            throw new InsufficientBalance("Saldo tidak mencukupi. Dibutuhkan: {$amount}, Tersedia: {$this->getBalance()}");
-        }
+        return DB::transaction(function () use ($amount, $type, $description) {
+            $wallet = $this->wallet()->firstOrCreate([]);
 
-        $wallet = $this->wallet;
-        $wallet->decrement('balance', $amount);
+            if ((float) $wallet->balance < $amount) {
+                throw new InsufficientBalance("Saldo tidak mencukupi. Dibutuhkan: {$amount}, Tersedia: {$wallet->balance}");
+            }
 
-        return $wallet->transactions()->create([
-            'type' => $type,
-            'amount' => -$amount,
-            'description' => $description,
-            'balance_before' => $wallet->fresh()->balance + $amount,
-            'balance_after' => $wallet->fresh()->balance,
-        ]);
+            $wallet->decrement('balance', $amount);
+            $wallet = $wallet->fresh();
+
+            return $wallet->transactions()->create([
+                'type' => $type,
+                'amount' => -$amount,
+                'description' => $description,
+                'balance_before' => $wallet->balance + $amount,
+                'balance_after' => $wallet->balance,
+            ]);
+        });
     }
 
     public function hasSufficientBalance(float $amount): bool

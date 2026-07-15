@@ -24,15 +24,18 @@ trait HasInventory
 
     public function incrementStock(int $quantity): void
     {
-        $this->inventory()->increment('quantity', $quantity);
+        $inventory = $this->inventory()->firstOrCreate([]);
+        $inventory->increment('quantity', $quantity);
     }
 
     public function decrementStock(int $quantity): void
     {
-        if (! $this->isStockAvailable($quantity)) {
-            throw new StockNotAvailable("Stok tidak mencukupi. Dibutuhkan: {$quantity}, Tersedia: {$this->getStock()}");
+        $inventory = $this->inventory()->firstOrCreate([]);
+
+        if ((int) $inventory->quantity < $quantity) {
+            throw new StockNotAvailable("Stok tidak mencukupi. Dibutuhkan: {$quantity}, Tersedia: {$inventory->quantity}");
         }
 
-        $this->inventory()->decrement('quantity', $quantity);
+        $inventory->decrement('quantity', $quantity);
     }
 }

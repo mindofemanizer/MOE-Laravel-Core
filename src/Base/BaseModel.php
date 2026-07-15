@@ -16,20 +16,10 @@ class BaseModel extends Model
     {
         parent::__construct($attributes);
 
-        $module = $this->getModuleName();
-        $tableName = config("core.tables.{$module}.{$this->table}", $this->table);
+        $overridden = config("core.tables.{$this->table}");
 
-        if ($tableName !== $this->table) {
-            $this->table = $tableName;
+        if ($overridden) {
+            $this->table = $overridden;
         }
-    }
-
-    /**
-     * Get the module name for config resolution.
-     * Override in child classes if needed.
-     */
-    protected function getModuleName(): string
-    {
-        return strtolower(class_basename(static::class));
     }
 }
