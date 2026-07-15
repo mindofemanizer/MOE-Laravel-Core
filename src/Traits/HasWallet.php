@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\Core\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 use Moe\Core\Exceptions\InsufficientBalance;
 
 trait HasWallet
 {
-    public function wallet()
+    public function wallet(): HasOne
     {
         return $this->hasOne(config('core.models.wallet', 'App\\Models\\Wallet'));
     }

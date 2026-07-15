@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\Core\Traits;
 
-use Moe\Core\Contracts\HasInventory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Moe\Core\Exceptions\StockNotAvailable;
 
 trait HasInventory
 {
-    public function inventory()
+    public function inventory(): HasOne
     {
         return $this->hasOne(config('core.models.inventory', 'App\\Models\\Inventory'));
     }

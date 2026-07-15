@@ -1,8 +1,8 @@
 <?php
 
-namespace Moe\Core\Traits;
+declare(strict_types=1);
 
-use Moe\Core\Contracts\IsSellable;
+namespace Moe\Core\Traits;
 
 trait IsSellable
 {

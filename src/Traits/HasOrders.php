@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\Core\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Moe\Core\Contracts\HasOrders;
 
 trait HasOrders
 {
