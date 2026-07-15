@@ -11,16 +11,34 @@ use Moe\Core\Exceptions\InsufficientBalance;
 
 trait HasWallet
 {
+    /**
+     * Get the wallet relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function wallet(): HasOne
     {
         return $this->hasOne(config('core.models.wallet', 'App\\Models\\Wallet'));
     }
 
+    /**
+     * Get the current balance.
+     *
+     * @return float
+     */
     public function getBalance(): float
     {
         return (float) ($this->wallet?->balance ?? 0);
     }
 
+    /**
+     * Credit the wallet.
+     *
+     * @param float $amount
+     * @param string $type
+     * @param string|null $description
+     * @return \Illuminate\Database\Eloquent\Model
+     */
     public function credit(float $amount, string $type, ?string $description = null): Model
     {
         return DB::transaction(function () use ($amount, $type, $description) {
@@ -39,6 +57,16 @@ trait HasWallet
         });
     }
 
+    /**
+     * Debit the wallet.
+     *
+     * @param float $amount
+     * @param string $type
+     * @param string|null $description
+     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Moe\Core\Exceptions\InsufficientBalance
+     */
     public function debit(float $amount, string $type, ?string $description = null): Model
     {
         return DB::transaction(function () use ($amount, $type, $description) {
@@ -61,6 +89,12 @@ trait HasWallet
         });
     }
 
+    /**
+     * Check if the wallet has sufficient balance.
+     *
+     * @param float $amount
+     * @return bool
+     */
     public function hasSufficientBalance(float $amount): bool
     {
         return $this->getBalance() >= $amount;

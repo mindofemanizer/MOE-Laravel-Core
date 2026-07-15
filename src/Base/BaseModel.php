@@ -13,6 +13,8 @@ class BaseModel extends Model
 
     /**
      * Get the table name with configurable prefix.
+     *
+     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
