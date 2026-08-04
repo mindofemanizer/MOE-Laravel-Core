@@ -1,50 +1,60 @@
-{
-    "name": "moe/laravel-core",
-    "description": "Core package for MOE ecosystem — Base contracts, traits, and classes",
-    "type": "library",
-    "license": "MIT",
-    "keywords": ["laravel", "core", "contracts", "traits", "moe"],
-    "authors": [
-        {
-            "name": "MindOfEmanizer",
-            "email": "mindofemanizer@users.noreply.github.com"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/mindofemanizer/MOE-Laravel-Core/issues",
-        "source": "https://github.com/mindofemanizer/MOE-Laravel-Core"
-    },
-    "require": {
-        "php": "^8.2",
-        "illuminate/support": "^11.0|^12.0|^13.0"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^9.0",
-        "phpunit/phpunit": "^10.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Moe\\Core\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Moe\\Core\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "phpunit"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Moe\\Core\\CoreServiceProvider"
-            ]
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+﻿{
+    "name":  "moe/laravel-core",
+    "description":  "Core package for MOE ecosystem â€” Base contracts, traits, and classes",
+    "type":  "library",
+    "license":  "MIT",
+    "keywords":  [
+                     "laravel",
+                     "core",
+                     "contracts",
+                     "traits",
+                     "moe"
+                 ],
+    "authors":  [
+                    {
+                        "name":  "MindOfEmanizer",
+                        "email":  "mindofemanizer@users.noreply.github.com"
+                    }
+                ],
+    "support":  {
+                    "issues":  "https://github.com/mindofemanizer/MOE-Laravel-Core/issues",
+                    "source":  "https://github.com/mindofemanizer/MOE-Laravel-Core"
+                },
+    "require":  {
+                    "php":  "^8.2",
+                    "illuminate/support":  "^11.0|^12.0|^13.0"
+                },
+    "require-dev":  {
+                        "orchestra/testbench":  "^9.0",
+                        "pestphp/pest":  "^3.0"
+                    },
+    "autoload":  {
+                     "psr-4":  {
+                                   "Moe\\Core\\":  "src/"
+                               }
+                 },
+    "autoload-dev":  {
+                         "psr-4":  {
+                                       "Moe\\Core\\Tests\\":  "tests/"
+                                   }
+                     },
+    "scripts":  {
+                    "test":  "pest",
+                    "test-coverage":  "pest --coverage"
+                },
+    "extra":  {
+                  "laravel":  {
+                                  "providers":  [
+                                                    "Moe\\Core\\CoreServiceProvider"
+                                                ]
+                              }
+              },
+    "config":  {
+                   "sort-packages":  true,
+                   "allow-plugins":  {
+                                         "pestphp/pest-plugin":  true
+                                     }
+               },
+    "minimum-stability":  "dev",
+    "prefer-stable":  true
 }
