@@ -1,4 +1,4 @@
-﻿{
+{
     "name":  "moe/laravel-core",
     "description":  "Core package for MOE ecosystem â€” Base contracts, traits, and classes",
     "type":  "library",
