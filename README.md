@@ -1,11 +1,11 @@
-# MOE-Laravel-Core
+﻿# MOE-Laravel-Core
 
-Core package for MOE ecosystem — Base contracts, traits, and classes for Laravel.
+Core package for MOE ecosystem â€” Base contracts, traits, and classes for Laravel.
 
 ## Installation
 
 ```bash
-composer require moe/laravel-core
+composer require moe/laravel-core:dev-main
 php artisan vendor:publish --provider="Moe\Core\CoreServiceProvider" --tag="core-config"
 ```
 
